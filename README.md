@@ -34,5 +34,5 @@ $ npm run start:prod
 
 # Desarrolladores 
 
-### David Serrada [Github](https://github.com/D4veCode) / [Web](davidserrada.netlify.com)
+### David Serrada [Github](https://github.com/D4veCode) / [Web](https://davidserrada.netlify.com)
 ### Fernando Rodriguez [Github](https://github.com/ferrodv)
