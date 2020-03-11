@@ -18,7 +18,7 @@ Para correr la aplicacion:
 # development
 $ npm run start
 
-# watch mode
+# watch mode (recomendado)
 $ npm run dev
 
 # migraciones (crearlas)
