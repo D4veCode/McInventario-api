@@ -2,13 +2,12 @@ import { Module } from '@nestjs/common';
 import { DatabaseModule } from './database/database/database.module';
 import { EmployeeModule } from './employee/employee.module';
 import { AuthModule } from './auth/auth.module';
-import { Connection } from 'typeorm';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { Employee } from "./employee/employee.model";
+import { User } from './auth/user.model';
 
 @Module({
-  imports: [DatabaseModule, EmployeeModule, AuthModule],
-  controllers: [],
-  providers: [],
+  imports: [EmployeeModule, AuthModule, TypeOrmModule.forFeature([User, Employee]), TypeOrmModule.forRoot()]
 })
 export class AppModule {
-  constructor(private readonly connection: Connection) {}
 }

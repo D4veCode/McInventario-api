@@ -1,4 +1,4 @@
-import { Empleado } from "./employee.model";
+import { Employee } from "./employee.model";
 import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 import { User } from "../auth/user.model";
@@ -8,15 +8,15 @@ export class EmployeeDTO implements Readonly<EmployeeDTO>{
     @ApiProperty()
     id?: number
 
-    @ApiProperty({ required: true })
+    @ApiProperty()
     @IsString()
     nombre: string
 
-    @ApiProperty({ required: true })
+    @ApiProperty()
     @IsString()
     apellido: string
 
-    @ApiProperty({ required: true, maxLength: 8 })
+    @ApiProperty()
     @IsString()
     CI: string
 
@@ -41,7 +41,7 @@ export class EmployeeDTO implements Readonly<EmployeeDTO>{
         return emp;
     }
 
-    public static FromEntity(entity: Empleado) {
+    public static FromEntity(entity: Employee) {
         return this.from({
             id: entity.id,
             nombre: entity.nombre,
@@ -53,7 +53,7 @@ export class EmployeeDTO implements Readonly<EmployeeDTO>{
     }
 
     public ToEntity(user: User) {
-        const emp = new Empleado();
+        const emp = new Employee();
 
         emp.nombre = this.nombre;
         emp.apellido = this.apellido;

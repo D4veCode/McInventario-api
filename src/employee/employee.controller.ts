@@ -1,4 +1,13 @@
-import { Controller } from '@nestjs/common';
+import { Controller, Post, Body } from '@nestjs/common';
+import { EmployeeService } from './employee.service';
+import { RegistrationDTO } from './registration.dto';
 
-@Controller('employee')
-export class EmployeeController {}
+@Controller('empleado')
+export class EmployeeController {
+    constructor(private readonly employeeService: EmployeeService){}
+
+    @Post('register')
+    addEmployee(@Body() data: RegistrationDTO){
+        
+    }
+}
