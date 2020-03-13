@@ -7,7 +7,7 @@ import { User } from './user.model';
 import { EmployeeModule } from '../employee/employee.module';
 
 @Module({
-  imports: [EmployeeModule],
+  imports: [EmployeeModule, TypeOrmModule.forFeature([User])],
   controllers: [AuthController],
   providers: [AuthService],
 

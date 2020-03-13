@@ -52,7 +52,7 @@ export class EmployeeDTO implements Readonly<EmployeeDTO>{
         })
     }
 
-    public ToEntity(user: User) {
+    public ToEntity() {
         const emp = new Employee();
 
         emp.nombre = this.nombre;
@@ -61,7 +61,7 @@ export class EmployeeDTO implements Readonly<EmployeeDTO>{
         if (this.cargo != null || this.cargo != undefined) {
             emp.cargo = this.cargo
         }
-        emp.user = user;
+        emp.user = this.user;
 
         return emp
     }

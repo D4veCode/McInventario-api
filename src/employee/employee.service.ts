@@ -4,22 +4,14 @@ import { User } from "../auth/user.model";
 import { RegistrationDTO } from './registration.dto';
 import { AuthService } from '../auth/auth.service';
 import { EmployeeDTO } from './employee.dto';
+import { InjectRepository } from '@nestjs/typeorm';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class EmployeeService {
+    constructor(@InjectRepository(Employee) private readonly empRepo : Repository<Employee>){}
 
-    public async addEmp(data: EmployeeDTO) {
-
-        const Emp : Employee = new Employee();
-
-        Emp.nombre = data.nombre;
-        Emp.apellido = data.apellido;
-        Emp.CI = data.CI;
-        Emp.cargo = data.cargo;
-        Emp.user = data.user;
-
-        await Emp.save()
-
-        console.log(Emp)
+    public async addEmp(employee: Employee) {
+        await this.empRepo.save(employee);
     }
 }
