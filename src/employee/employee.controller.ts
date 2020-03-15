@@ -1,13 +1,15 @@
-import { Controller, Post, Body } from '@nestjs/common';
+import { Controller, Post, Body, HttpCode, UseGuards, Get } from '@nestjs/common';
 import { EmployeeService } from './employee.service';
-import { RegistrationDTO } from './registration.dto';
+import { JwtAuthGuard } from '../auth/strategies/jwt.guard';
 
 @Controller('empleado')
 export class EmployeeController {
     constructor(private readonly employeeService: EmployeeService){}
 
-    @Post('register')
-    addEmployee(@Body() data: RegistrationDTO){
-        
+    @UseGuards(JwtAuthGuard)
+    @Get('all')
+    @HttpCode(200)
+    public async allEmployees(){
+        return this.employeeService.allEmployees();
     }
 }

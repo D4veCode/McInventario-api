@@ -10,4 +10,8 @@ export class EmployeeService {
     public async addEmp(employee: Employee) {
         await this.empRepo.save(employee);
     }
+
+    public async allEmployees(){
+        return await this.empRepo.find({relations: ['user']})
+    }
 }
