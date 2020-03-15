@@ -1,6 +1,6 @@
-import { Employee } from "./employee.model"
-import { User } from "../auth/user.model"
-import { EmployeeDTO } from "./employee.dto"
+import { Employee } from "../../employee/employee.model"
+import { User } from "../user.model"
+import { EmployeeDTO } from "../../employee/employee.dto"
 
 
 export class RegistrationDTO {

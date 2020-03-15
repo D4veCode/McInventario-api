@@ -1,9 +1,10 @@
 import { Injectable, Inject, ConflictException } from '@nestjs/common';
 import { User } from './user.model';
 import { EmployeeService } from '../employee/employee.service';
-import { RegistrationDTO } from '../employee/registration.dto';
+import { RegistrationDTO } from './dto/registration.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { LoginDTO } from './dto/login.dto';
 
 
 
@@ -27,5 +28,9 @@ export class AuthService {
         await this.EmpService.addEmp(data.toEmployee(user));
 
         return { "message": 'Empleado registrado' }
+    }
+
+    public async login(loginDTO: LoginDTO){
+        
     }
 }
