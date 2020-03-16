@@ -1,20 +1,32 @@
 import { Employee } from "../../employee/employee.model"
 import { User } from "../user.model"
 import { EmployeeDTO } from "../../employee/employee.dto"
+import { IsEmail, IsString, IsNumberString, IsNotEmpty } from "class-validator"
 
 
 export class RegistrationDTO {
 
+    @IsEmail()
+    @IsNotEmpty()
     correo: string
 
+    @IsString()
+    @IsNotEmpty()
     clave: string
 
+    @IsString()
+    @IsNotEmpty()
     nombre: string
 
+    @IsString()
+    @IsNotEmpty()
     apellido: string
 
+    @IsNumberString()
+    @IsNotEmpty()
     CI: string
 
+    @IsString()
     cargo?: string
 
 
