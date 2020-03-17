@@ -31,7 +31,7 @@ export class Inventory extends BaseEntity {
     @ManyToOne(type => Donor, { onDelete: "CASCADE", nullable: true})
     @JoinColumn({ name: 'fk_don' })
     fk_don: Donor
-s
+    
     @ManyToOne(type => Product, { onDelete: "CASCADE"})
     @JoinColumn({ name: 'fk_prod' })
     fk_prod: Product
