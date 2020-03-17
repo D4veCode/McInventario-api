@@ -3,14 +3,14 @@ CREATE DATABASE McInventario;
 DROP schema public cascade;
 CREATE schema public;
 
-CREATE TABLE Usuario(
+CREATE TABLE Users(
 	ID SERIAL UNIQUE,
 	Correo varchar(100) NOT NULL UNIQUE,
 	Clave varchar(200) NOT NULL,
 	CONSTRAINT Pk_Usuario PRIMARY KEY(ID)	
 );
 
-CREATE TABLE Empleado(
+CREATE TABLE Empleados(
 	ID SERIAL UNIQUE,
 	Nombre varchar(30) NOT NULL,
 	Apellido varchar(30) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE Empleado(
 	CONSTRAINT Pk_Empleado PRIMARY KEY(ID)	
 );
 
-CREATE TABLE Donante(
+CREATE TABLE Donantes(
 	ID SERIAL UNIQUE,
 	Nombre varchar(60) NOT NULL UNIQUE,
 	Tip_id char(1) NOT NULL,
@@ -30,7 +30,7 @@ CREATE TABLE Donante(
 	CONSTRAINT Pk_Donante PRIMARY KEY(ID)	
 );
 
-CREATE TABLE Producto(
+CREATE TABLE Productos(
 	ID SERIAL UNIQUE,
 	Nombre varchar(60) NOT NULL,
 	Marca varchar(60) NOT NULL,
@@ -39,7 +39,7 @@ CREATE TABLE Producto(
 	CONSTRAINT Pk_Producto PRIMARY KEY(ID)	
 );
 
-CREATE TABLE Inventario(
+CREATE TABLE Inventarios(
 	ID SERIAL UNIQUE,
 	Cant int NOT NULL,
 	Fk_Prod int NOT NULL,
@@ -55,7 +55,7 @@ CREATE TABLE Inventario(
 	CONSTRAINT Pk_Inventario PRIMARY KEY(ID)	
 );
 
-CREATE TABLE Receta(
+CREATE TABLE Recetas(
 	ID SERIAL UNIQUE,	
 	Nombre varchar(60) NOT NULL,
 	gr_persona int NOT NULL,
