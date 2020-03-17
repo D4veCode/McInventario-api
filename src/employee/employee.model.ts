@@ -14,13 +14,13 @@ export class Employee extends BaseEntity {
     apellido: string
 
     @Column({ type: "varchar", length: 8 })
-    CI: string
+    ci: string
 
     @Column({ type: "varchar", nullable: true, length: 30 })
     cargo: string
 
     @OneToOne(type => User, { onDelete: "CASCADE" })
-    @JoinColumn({ name: 'Fk_user' })
+    @JoinColumn({ name: 'fk_user' })
     user: User
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })

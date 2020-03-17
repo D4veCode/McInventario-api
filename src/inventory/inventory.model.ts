@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToOne, JoinColumn, BaseEntity } from "typeorm";
+import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, ManyToOne, JoinColumn, BaseEntity } from "typeorm";
 import { User } from "../auth/user.model";
 import { Donor } from "../donor/donor.model";
 import { Product } from "../product/product.model";
@@ -10,31 +10,31 @@ export class Inventory extends BaseEntity {
     id: number
 
     @Column('int')
-    Cant: number
+    cant: number
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
-    Fecha_reg: string
+    fecha_reg: string
 
-    @CreateDateColumn({ type: 'timestamptz', nullable: true })
-    Fecha_ven: string
+    @CreateDateColumn({ type: 'date', nullable: true })
+    fecha_ven: string
 
     @Column('real', {nullable: true})
-    Valor_Usd: number
+    valor_usd: number
 
     @Column({ type: "varchar", length: 60, nullable: true  })
-    Contratador: string
+    contratador: string
 
-    @OneToOne(type => User, { onDelete: "CASCADE" })
-    @JoinColumn({ name: 'Fk_user' })
-    Fk_user: User
+    @ManyToOne(type => User, { onDelete: "CASCADE" })
+    @JoinColumn({ name: 'fk_user' })
+    fk_user: User
 
-    @OneToOne(type => Donor, { onDelete: "CASCADE", nullable: true})
-    @JoinColumn({ name: 'Fk_don' })
-    Fk_Don: Donor
+    @ManyToOne(type => Donor, { onDelete: "CASCADE", nullable: true})
+    @JoinColumn({ name: 'fk_don' })
+    fk_don: Donor
 s
-    @OneToOne(type => Product, { onDelete: "CASCADE"})
-    @JoinColumn({ name: 'Fk_Prod' })
-    Fk_Prod: Product
+    @ManyToOne(type => Product, { onDelete: "CASCADE"})
+    @JoinColumn({ name: 'fk_prod' })
+    fk_prod: Product
 
 }	
 

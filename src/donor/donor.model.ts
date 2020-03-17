@@ -10,13 +10,13 @@ export class Donor extends BaseEntity {
     nombre: string
 
     @Column({ type: "varchar", length: 1 })
-    Tip_id: string
+    tip_id: string
 
     @Column({ type: "varchar", length: 12 })
-    Num_id: string
+    num_id: string
 
     @Column({ type: "varchar", nullable: true, length: 80 })
-    Direccion: string
+    direccion: string
 
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     createdAt: string

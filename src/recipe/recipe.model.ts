@@ -1,6 +1,6 @@
 import { Entity, PrimaryGeneratedColumn, Column, CreateDateColumn, OneToOne, JoinColumn, BaseEntity } from "typeorm";
 
-@Entity({ name: 'recipes' })
+@Entity({ name: 'recetas' })
 export class Recipe extends BaseEntity {
 
     @PrimaryGeneratedColumn()
