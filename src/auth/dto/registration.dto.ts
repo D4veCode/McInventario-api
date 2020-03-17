@@ -24,7 +24,7 @@ export class RegistrationDTO {
 
     @IsNumberString()
     @IsNotEmpty()
-    CI: string
+    ci: string
 
     @IsString()
     cargo?: string
@@ -34,7 +34,7 @@ export class RegistrationDTO {
         this.nombre = json.nombre;
         this.apellido = json.apellido;
         this.cargo = json.cargo;
-        this.CI = json.CI;
+        this.ci = json.ci;
         this.clave = json.clave;
         this.correo = json.correo;
     }
@@ -46,7 +46,7 @@ export class RegistrationDTO {
 
         Emp.nombre = this.nombre;
         Emp.apellido = this.apellido;
-        Emp.CI = this.CI;
+        Emp.ci = this.ci;
         Emp.cargo = this.cargo;
         Emp.user = user;
         return Emp;

@@ -18,7 +18,7 @@ export class EmployeeDTO implements Readonly<EmployeeDTO>{
 
     @ApiProperty()
     @IsString()
-    CI: string
+    ci: string
 
     @ApiProperty()
     cargo?: string
@@ -31,7 +31,7 @@ export class EmployeeDTO implements Readonly<EmployeeDTO>{
         emp.id = dto.id;
         emp.nombre = dto.nombre;
         emp.apellido = dto.apellido;
-        emp.CI = dto.CI;
+        emp.ci = dto.ci;
         emp.user = dto.user;
 
         if (dto.cargo != null || dto.cargo != undefined) {
@@ -46,7 +46,7 @@ export class EmployeeDTO implements Readonly<EmployeeDTO>{
             id: entity.id,
             nombre: entity.nombre,
             apellido: entity.apellido,
-            CI: entity.CI,
+            ci: entity.ci,
             cargo: entity.cargo,
             user: entity.user
         })
@@ -57,7 +57,7 @@ export class EmployeeDTO implements Readonly<EmployeeDTO>{
 
         emp.nombre = this.nombre;
         emp.apellido = this.apellido;
-        emp.CI = this.CI;
+        emp.ci = this.ci;
         if (this.cargo != null || this.cargo != undefined) {
             emp.cargo = this.cargo
         }
