@@ -1,11 +1,19 @@
-import { Controller, Get, Param } from '@nestjs/common';
+import { Controller, Get, Put, Delete, Post, Param, Res, HttpStatus, Body } from '@nestjs/common';
+
+import { InventoryDTO } from "./inventory.dto";
+import { InventoryService } from "./inventory.service";
 
 @Controller('inventario')
 export class InventoryController {
 
+    constructor(private invService : InventoryService) {}
+
+    ///////GETS///////
+    
     @Get()
-    getInv(): string{
-        return 'Retornando inventario en gramos';
+    async getInv(@Res() res) {
+        const inv = await this.invService.getInv();
+        return res.status(HttpStatus.OK).json({message: inv})
     }
 
     @Get('/entradas')
@@ -81,6 +89,16 @@ export class InventoryController {
     @Get('/stats/contratador/valor')
     getTopContratistV(): string{
         return 'Retornando top contratadores por valor';
+    }
+
+    ///////POSTS///////
+
+    @Post('/create')
+    createInv(@Res() res, @Body() inventoryDTO : InventoryDTO) {
+        console.log(inventoryDTO);
+        return res.status(HttpStatus.OK).json({ 
+            message: 'received' 
+        })      
     }
 
 
