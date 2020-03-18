@@ -14,8 +14,6 @@ export class AuthService {
         @InjectRepository(User) private readonly userRepo: Repository<User>, private readonly jwtService :JwtService) { }
 
     public async registerEmployee(registerData: RegistrationDTO): Promise<Object> {
-
-
         const data: RegistrationDTO = new RegistrationDTO(registerData);
         const userExists: User = await this.userRepo.findOne({ where: { correo: data.correo } });
 

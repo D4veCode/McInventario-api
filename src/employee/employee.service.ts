@@ -2,6 +2,7 @@ import { Injectable} from '@nestjs/common';
 import { Employee } from './employee.model';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { EmployeeDTO } from './employee.dto';
 
 @Injectable()
 export class EmployeeService {
@@ -12,6 +13,6 @@ export class EmployeeService {
     }
 
     public async allEmployees(){
-        return await this.empRepo.find({relations: ['user']})
+        return await this.empRepo.find({relations: ['user']}).then(emps => emps.map(emp => EmployeeDTO.FromEntity(emp)));
     }
 }
