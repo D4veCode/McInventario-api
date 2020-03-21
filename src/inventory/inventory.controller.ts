@@ -35,8 +35,9 @@ export class InventoryController {
     }
 
     @Get('/row/:id')
-    getInvSingle(@Param('id') id: string): string{
-        return 'Retornando row del inventario';
+    async getInvSingle(@Param('id') id: string, @Res() res) {
+        const inv = await this.invService.getInvSingle(Number(id));
+        return res.status(HttpStatus.OK).json({message: inv})
     }
 
     @Get('/stats/entradas/productos/gramos')
