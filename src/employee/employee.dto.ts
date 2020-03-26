@@ -1,29 +1,24 @@
 import { Employee } from "./employee.model";
-import { ApiProperty } from "@nestjs/swagger";
 import { IsString } from "class-validator";
 import { User } from "../auth/user.model";
+import { UserDTO } from "../auth/dto/user.dto";
 
 export class EmployeeDTO implements Readonly<EmployeeDTO>{
 
-    @ApiProperty()
     id?: number
 
-    @ApiProperty()
     @IsString()
     nombre: string
 
-    @ApiProperty()
     @IsString()
     apellido: string
 
-    @ApiProperty()
     @IsString()
     ci: string
 
-    @ApiProperty()
     cargo?: string
 
-    user?: User
+    user?: User | any
 
 
     public static from(dto: Partial<EmployeeDTO>) {
@@ -48,7 +43,7 @@ export class EmployeeDTO implements Readonly<EmployeeDTO>{
             apellido: entity.apellido,
             ci: entity.ci,
             cargo: entity.cargo,
-            user: entity.user
+            user: new UserDTO(entity.user)
         })
     }
 

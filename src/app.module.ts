@@ -16,7 +16,23 @@ import { Recipe } from "./recipe/recipe.model";
 
 
 @Module({
-  imports: [EmployeeModule, AuthModule, TypeOrmModule.forFeature([User, Employee, Inventory, Product, Donor, Recipe]), TypeOrmModule.forRoot(), InventoryModule, ProductModule, DonorModule, RecipeModule],
+  imports: [
+    EmployeeModule, 
+    AuthModule, 
+    TypeOrmModule.forFeature([
+        User, 
+        Employee, 
+        Inventory, 
+        Product, 
+        Donor, 
+        Recipe
+      ]), 
+    TypeOrmModule.forRoot(), 
+    InventoryModule, 
+    ProductModule, 
+    DonorModule, 
+    RecipeModule
+  ],
 })
 export class AppModule {
 }
