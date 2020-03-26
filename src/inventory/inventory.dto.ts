@@ -1,11 +1,46 @@
+import { Product } from "../product/product.model";
+import { User } from "../auth/user.model";
+import { Donor } from "../donor/donor.model";
+
+import {ProductService} from "../product/product.service";
+import {DonorService} from "../donor/donor.service";
+import {AuthService} from "../auth/auth.service";
+import { Inventory } from "./inventory.model";
+
 export class InventoryDTO {
+
         id: number;
         cant: number;
-        fk_prod: number;
         fecha_reg: Date;
         fecha_ven: Date;
         valor_usd: number;
         contratador: string;
-        fk_don : number;
-        fk_user : number;
+        fk_prod: Product;
+        fk_don: Donor;
+        fk_user: User;
+
+        constructor(json : any,){
+                this.id = json.id;
+                this.cant = json.cant;
+                this.fecha_reg = json.fecha_reg;
+                this.fecha_ven = json.fecha_ven;
+                this.valor_usd = json.valor_usd;
+                this.contratador = json.contratador;
+                this.fk_prod = json.fk_prod;
+                this.fk_don = json.fk_don;
+                this.fk_user = json.fk_user;
+        }
+
+        public toInv() {
+                const inv: Inventory = new Inventory();
+                inv.id = this.id;
+                inv.cant = this.cant;
+                inv.valor_usd = this.valor_usd;
+                inv.contratador = this.contratador;
+                inv.fk_prod = this.fk_prod;
+                inv.fk_don = this.fk_don;
+                inv.fk_user = this.fk_user;
+                return inv;
+        }
+
 }

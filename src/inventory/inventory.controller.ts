@@ -8,7 +8,7 @@ export class InventoryController {
 
     constructor(private invService : InventoryService) {}
 
-    ///////GETS///////
+    ///////GETTERS///////
     
     @Get()
     async getInv(@Res() res) {
@@ -39,6 +39,27 @@ export class InventoryController {
         const inv = await this.invService.getInvSingle(Number(id));
         return res.status(HttpStatus.OK).json({message: inv})
     }
+
+    ///////POSTS///////
+
+    @Post('/create/entrada')
+    async createInvEntry(@Res() res, @Body() inventoryDTO : InventoryDTO) {
+        const r = this.invService.createInvEntry(inventoryDTO)
+        console.log(r)
+        return res.status(HttpStatus.OK).json({ 
+            message : r
+        })      
+    }
+
+    @Post('/create/salida')
+    createInvEgress(@Res() res, @Body() inventoryDTO : InventoryDTO) {
+        console.log(inventoryDTO);
+        return res.status(HttpStatus.OK).json({ 
+            message: 'received' 
+        })      
+    }
+
+    ///////GETS-STATS///////
 
     @Get('/stats/entradas/productos/gramos')
     getTopProductsDonG(): string{
@@ -98,16 +119,6 @@ export class InventoryController {
     @Get('/stats/contratador/valor')
     getTopContratistV(): string{
         return 'Retornando top contratadores por valor';
-    }
-
-    ///////POSTS///////
-
-    @Post('/create')
-    createInv(@Res() res, @Body() inventoryDTO : InventoryDTO) {
-        console.log(inventoryDTO);
-        return res.status(HttpStatus.OK).json({ 
-            message: 'received' 
-        })      
     }
 
 

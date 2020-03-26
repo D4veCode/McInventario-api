@@ -6,13 +6,17 @@ import { Inventory } from './inventory.model';
 import { User } from "../auth/user.model";
 import { Donor } from "../donor/donor.model";
 import { Product } from "../product/product.model";
+
 import { InventoryDTO } from "./inventory.dto";
+
+import {ProductService} from "../product/product.service";
+import {DonorService} from "../donor/donor.service";
+import {AuthService} from "../auth/auth.service";
 
 @Injectable()
 export class InventoryService {
 
-    constructor(
-    @InjectRepository(Inventory) private readonly invRepo : Repository<Inventory>){}
+    constructor(@InjectRepository(Inventory) private readonly invRepo : Repository<Inventory>){}
 
     async getInv(): Promise<Inventory[]> {
         //const listInv = await this.invRepo.find({relations: ['fk_user','fk_prod','fk_don']});
@@ -49,12 +53,12 @@ export class InventoryService {
     }
 
     async getInvAct(): Promise<Inventory[]> {
-        const listInv = await this.invRepo.createQueryBuilder("inv")
+        const inv = await this.invRepo.createQueryBuilder("inv")
         .leftJoin("inv.fk_prod", "prod")
         .select("SUM(prod.gr_paq * inv.cant)", "total").addSelect("prod.nombre", "producto")
         .groupBy("prod.nombre").orderBy("prod.nombre")
         .getRawMany();
-        return listInv;
+        return inv;
     }
 
     async getInvSingle(invID : Number): Promise<Inventory>{
@@ -68,20 +72,16 @@ export class InventoryService {
         .getRawOne();
         return inv;
     }
-    /*
-    async createInv(invDTO: InventoryDTO): Promise<Inventory>{
-        
-        const u = invDTO.fk_user
-        const p = invDTO.fk_prod
-        const d = invDTO.fk_don
-        const us = await this.userRepo.createQueryBuilder("user").where("user.id = :u", { u }).getOne();
-        const pro = await this.userRepo.createQueryBuilder("prod").where("prod.id = :p", { p }).getOne();
-        const don = await this.userRepo.createQueryBuilder("donant").where("donant.id = :d", { d }).getOne();
-        await this.invRepo.createQueryBuilder()
-        return
-        
+
+    async createInvEntry(invDTO: InventoryDTO) : Promise<string>{
+        const data: InventoryDTO = new InventoryDTO(invDTO);
+        //const user : User = new User();
+        //const don : Donor = new Donor();
+        //const prod : Product = new Product();
+        this.invRepo.save(data.toInv())
+        return "registrado exitosamente"
     }
-    */
+
     updateInv() {
 
     }
