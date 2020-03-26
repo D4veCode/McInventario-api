@@ -4,12 +4,6 @@ delete from productos;
 delete from donantes;
 delete from empleados;
 delete from users;
-ALTER SEQUENCE recetas_id_seq RESTART WITH 1;
-ALTER SEQUENCE inventarios_id_seq RESTART WITH 1;
-ALTER SEQUENCE productos_id_seq RESTART WITH 1;
-ALTER SEQUENCE donantes_id_seq RESTART WITH 1;
-ALTER SEQUENCE empleados_id_seq RESTART WITH 1;
-ALTER SEQUENCE users_id_seq RESTART WITH 1;
 
 Insert into users(id,correo,clave)values
 (1,'davidasb.27@gmail.com','123456'),
@@ -349,3 +343,10 @@ insert into inventarios (id, cant, fk_prod, fecha_reg, fk_user) values (297, -8,
 insert into inventarios (id, cant, fk_prod, fecha_reg, fk_user) values (298, -12, 8, '2020/05/19', 2);
 insert into inventarios (id, cant, fk_prod, fecha_reg, fk_user) values (299, -14, 3, '2020/05/26', 1);
 insert into inventarios (id, cant, fk_prod, fecha_reg, fk_user) values (300, -7, 1, '2020/06/12', 1);
+
+ALTER SEQUENCE recetas_id_seq RESTART WITH 5;
+ALTER SEQUENCE inventarios_id_seq RESTART WITH 301;
+ALTER SEQUENCE productos_id_seq RESTART WITH 17;
+ALTER SEQUENCE donantes_id_seq RESTART WITH 4;
+ALTER SEQUENCE empleados_id_seq RESTART WITH 3;
+ALTER SEQUENCE users_id_seq RESTART WITH 3;
