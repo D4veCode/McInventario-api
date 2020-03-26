@@ -24,7 +24,7 @@ export class Inventory extends BaseEntity {
     @Column({ type: "varchar", length: 60, nullable: true  })
     contratador: string
 
-    @ManyToOne(type => User, { onDelete: "CASCADE" })
+    @ManyToOne(type => User, { onDelete: "CASCADE" , nullable: false })
     @JoinColumn({ name: 'fk_user' })
     fk_user: User
 
@@ -32,7 +32,7 @@ export class Inventory extends BaseEntity {
     @JoinColumn({ name: 'fk_don' })
     fk_don: Donor
     
-    @ManyToOne(type => Product, { onDelete: "CASCADE"})
+    @ManyToOne(type => Product, { onDelete: "CASCADE" , nullable: false})
     @JoinColumn({ name: 'fk_prod' })
     fk_prod: Product
 

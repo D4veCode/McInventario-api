@@ -45,9 +45,8 @@ export class InventoryController {
     @Post('/create/entrada')
     async createInvEntry(@Res() res, @Body() inventoryDTO : InventoryDTO) {
         const r = this.invService.createInvEntry(inventoryDTO)
-        console.log(r)
         return res.status(HttpStatus.OK).json({ 
-            message : r
+            Promise : r
         })      
     }
 

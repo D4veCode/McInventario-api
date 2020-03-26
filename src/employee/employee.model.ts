@@ -19,7 +19,7 @@ export class Employee extends BaseEntity {
     @Column({ type: "varchar", nullable: true, length: 30 })
     cargo: string
 
-    @OneToOne(type => User, { onDelete: "CASCADE" })
+    @OneToOne(type => User, { onDelete: "CASCADE" , nullable: false })
     @JoinColumn({ name: 'fk_user' })
     user: User
 
