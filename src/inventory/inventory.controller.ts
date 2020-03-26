@@ -17,18 +17,27 @@ export class InventoryController {
     }
 
     @Get('/entradas')
-    getInvEntries(): string{
-        return 'Retornando lista de entradas inventario';
+    async getInvEntries(@Res() res) {
+        const inv = await this.invService.getInvEntries();
+        return res.status(HttpStatus.OK).json({message: inv})
     }
 
     @Get('/salidas')
-    getInvEgresses(): string{
-        return 'Retornando lista de salidas inventario';
+    async getInvEgresses(@Res() res) {
+        const inv = await this.invService.getInvEgresses();
+        return res.status(HttpStatus.OK).json({message: inv})
+    }
+
+    @Get('/actual')
+    async getInvAct(@Res() res) {
+        const inv = await this.invService.getInvAct();
+        return res.status(HttpStatus.OK).json({message: inv})
     }
 
     @Get('/row/:id')
-    getInvSingle(@Param('id') id: string): string{
-        return 'Retornando row del inventario';
+    async getInvSingle(@Param('id') id: string, @Res() res) {
+        const inv = await this.invService.getInvSingle(Number(id));
+        return res.status(HttpStatus.OK).json({message: inv})
     }
 
     @Get('/stats/entradas/productos/gramos')

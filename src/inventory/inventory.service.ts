@@ -15,27 +15,57 @@ export class InventoryService {
     @InjectRepository(Inventory) private readonly invRepo : Repository<Inventory>){}
 
     async getInv(): Promise<Inventory[]> {
-        const listInv = await this.invRepo.find();
-        console.log(listInv);
+        //const listInv = await this.invRepo.find({relations: ['fk_user','fk_prod','fk_don']});
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_user", "user").leftJoin("inv.fk_prod", "prod").leftJoin("inv.fk_don", "don")
+        .select("inv.cant", "cantidad").addSelect("prod.gr_paq", "gramos").addSelect("prod.gr_paq * inv.cant", "total")
+        .addSelect("prod.nombre", "producto").addSelect("inv.fecha_reg", "registro").addSelect("inv.fecha_ven", "vencimiento")
+        .addSelect("inv.valor_usd", "valor").addSelect("inv.contratador", "contratador")
+        .addSelect("don.nombre", "donante").addSelect("user.correo", "correo").orderBy("inv.fecha_reg", "DESC")
+        .getRawMany();
         return listInv;
     }
 
-    async getInvEntries(): Promise<Inventory[]> {
-        const listInv = await this.invRepo.createQueryBuilder("inv").where("inv.cant > 0").getMany();
+    async getInvEgresses(): Promise<Inventory[]> {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_user", "user").leftJoin("inv.fk_prod", "prod")
+        .select("inv.cant", "cantidad").addSelect("prod.gr_paq", "gramos").addSelect("prod.gr_paq * inv.cant", "total")
+        .addSelect("prod.nombre", "producto").addSelect("inv.fecha_reg", "registro").addSelect("user.correo", "correo")
+        .where("inv.cant < 0").orderBy("inv.fecha_reg", "DESC")
+        .getRawMany();
         return listInv;
     }
 
-    async getInvEgresses() {
-        const listInv = await this.invRepo.createQueryBuilder("inv").where("inv.cant < 0").getMany();
+    async getInvEntries() {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_user", "user").leftJoin("inv.fk_prod", "prod").leftJoin("inv.fk_don", "don")
+        .select("inv.cant", "cantidad").addSelect("prod.gr_paq", "gramos").addSelect("prod.gr_paq * inv.cant", "total")
+        .addSelect("prod.nombre", "producto").addSelect("inv.fecha_reg", "registro").addSelect("inv.fecha_ven", "vencimiento")
+        .addSelect("inv.valor_usd", "valor").addSelect("inv.contratador", "contratador")
+        .addSelect("don.nombre", "donante").addSelect("user.correo", "correo")
+        .where("inv.cant > 0").orderBy("inv.fecha_reg", "DESC")
+        .getRawMany();
         return listInv;
     }
 
-    async getInvSingle(invID : string): Promise<Inventory>{
-        const inv = await this.invRepo.createQueryBuilder()
-        .select("*")
-        .from( Inventory, "inv",)
-        .where("inv.id = :invID",{invID}).
-        getOne();
+    async getInvAct(): Promise<Inventory[]> {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_prod", "prod")
+        .select("SUM(prod.gr_paq * inv.cant)", "total").addSelect("prod.nombre", "producto")
+        .groupBy("prod.nombre").orderBy("prod.nombre")
+        .getRawMany();
+        return listInv;
+    }
+
+    async getInvSingle(invID : Number): Promise<Inventory>{
+        const inv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_user", "user").leftJoin("inv.fk_prod", "prod").leftJoin("inv.fk_don", "don")
+        .select("inv.cant", "cantidad").addSelect("prod.gr_paq", "gramos").addSelect("prod.gr_paq * inv.cant", "total")
+        .addSelect("prod.nombre", "producto").addSelect("inv.fecha_reg", "registro").addSelect("inv.fecha_ven", "vencimiento")
+        .addSelect("inv.valor_usd", "valor").addSelect("inv.contratador", "contratador")
+        .addSelect("don.nombre", "donante").addSelect("user.correo", "correo")
+        .where("inv.id = :invID ", { invID }).orderBy("inv.fecha_reg", "DESC")
+        .getRawOne();
         return inv;
     }
     /*
