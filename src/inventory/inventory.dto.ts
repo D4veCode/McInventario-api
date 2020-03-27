@@ -2,17 +2,14 @@ import { Product } from "../product/product.model";
 import { User } from "../auth/user.model";
 import { Donor } from "../donor/donor.model";
 
-import {ProductService} from "../product/product.service";
-import {DonorService} from "../donor/donor.service";
-import {AuthService} from "../auth/auth.service";
 import { Inventory } from "./inventory.model";
 
 export class InventoryDTO {
 
         id: number;
         cant: number;
-        fecha_reg: Date;
-        fecha_ven: Date;
+        fecha_reg: string;
+        fecha_ven: string;
         valor_usd: number;
         contratador: string;
         fk_prod: Product;

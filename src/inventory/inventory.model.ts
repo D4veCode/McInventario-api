@@ -15,7 +15,7 @@ export class Inventory extends BaseEntity {
     @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP' })
     fecha_reg: string
 
-    @CreateDateColumn({ type: 'date', nullable: true })
+    @Column({ type: 'date', nullable: true })
     fecha_ven: string
 
     @Column('real', {nullable: true})

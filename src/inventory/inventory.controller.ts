@@ -2,13 +2,11 @@ import { Controller, Get, Put, Delete, Post, Param, Res, HttpStatus, Body } from
 
 import { InventoryDTO } from "./inventory.dto";
 import { InventoryService } from "./inventory.service";
-import { ProductService } from '../product/product.service';
-import { json } from 'express';
 
 @Controller('inventario')
 export class InventoryController {
 
-    constructor(private invService : InventoryService,private prodService : ProductService) {}
+    constructor(private invService : InventoryService) {}
 
     ///////GETTERS///////
     
