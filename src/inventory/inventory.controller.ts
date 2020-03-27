@@ -92,7 +92,7 @@ export class InventoryController {
     async updateInv(@Res() res, @Body() inventoryDTO : InventoryDTO,@Param('id') id : string) {
         const inv = await this.invService.updateInv(inventoryDTO, Number(id))
         if (inv != null)
-            return res.status(HttpStatus.OK).json({message: "Registro exitoso", data: inv})
+            return res.status(HttpStatus.OK).json({message: "Cambio exitoso", data: inv})
         else 
             return res.status(HttpStatus.NOT_FOUND).json({message: "Registro no existente"})   
     }
