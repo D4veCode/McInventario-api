@@ -13,49 +13,88 @@ export class InventoryController {
     @Get()
     async getInv(@Res() res) {
         const inv = await this.invService.getInv();
-        return res.status(HttpStatus.OK).json({message: inv})
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else 
+            return res.status(HttpStatus.NO_CONTENT).json({message: "Data no encontrada"})
     }
 
     @Get('/entradas')
     async getInvEntries(@Res() res) {
         const inv = await this.invService.getInvEntries();
-        return res.status(HttpStatus.OK).json({message: inv})
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else 
+            return res.status(HttpStatus.NO_CONTENT).json({message: "Data no encontrada"})
     }
 
     @Get('/salidas')
     async getInvEgresses(@Res() res) {
         const inv = await this.invService.getInvEgresses();
-        return res.status(HttpStatus.OK).json({message: inv})
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else 
+            return res.status(HttpStatus.NO_CONTENT).json({message: "Data no encontrada"})
     }
 
     @Get('/actual')
     async getInvAct(@Res() res) {
         const inv = await this.invService.getInvAct();
-        return res.status(HttpStatus.OK).json({message: inv})
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else 
+            return res.status(HttpStatus.NO_CONTENT).json({message: "Data no encontrada"})
     }
 
     @Get('/row/:id')
     async getInvSingle(@Param('id') id: string, @Res() res) {
         const inv = await this.invService.getInvSingle(Number(id));
-        return res.status(HttpStatus.OK).json({message: inv})
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else 
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Registro no existente"})
+    }
+
+    ///////DELETES///////
+
+    @Delete('/delete/:id')
+    async deleteInv(@Param('id') id : string, @Res() res) {
+        const inv = await this.invService.deleteInv(Number(id));
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({message: "data eliminada exitosamente", data: inv})
+        else 
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Registro no existente"})
     }
 
     ///////POSTS///////
 
     @Post('/create/entrada')
     async createInvEntry(@Res() res, @Body() inventoryDTO : InventoryDTO) {
-        const r = this.invService.createInvEntry(inventoryDTO)
-        return res.status(HttpStatus.OK).json({ 
-            Promise : r
-        })      
+        const inv = await this.invService.createInvEntry(inventoryDTO)
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({message: "Registro exitoso", data: inv})
+        else 
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Registro no existente"})   
     }
 
     @Post('/create/salida')
-    createInvEgress(@Res() res, @Body() inventoryDTO : InventoryDTO) {
-        console.log(inventoryDTO);
-        return res.status(HttpStatus.OK).json({ 
-            message: 'received' 
-        })      
+    async createInvEgress(@Res() res, @Body() inventoryDTO : InventoryDTO) {
+        const inv = await this.invService.createInvEgress(inventoryDTO)
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({message: "Registro exitoso", data: inv})
+        else 
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Registro no existente"})       
+    }
+
+    ///////PUTS///////
+
+    @Put('/update/:id')
+    async updateInv(@Res() res, @Body() inventoryDTO : InventoryDTO,@Param('id') id : string) {
+        const inv = await this.invService.updateInv(inventoryDTO, Number(id))
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({message: "Cambio exitoso", data: inv})
+        else 
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Registro no existente"})   
     }
 
     ///////GETS-STATS///////
