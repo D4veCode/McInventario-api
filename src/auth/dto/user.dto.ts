@@ -4,7 +4,7 @@ export class UserDTO {
 
     correo: string
 
-    createdAt: string
+    createdAt: Date
 
     constructor(data:any){
         this.id = data.id;
