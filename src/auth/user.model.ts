@@ -12,7 +12,7 @@ export class User extends BaseEntity {
     @Column({ type: 'varchar', length: 200 })
     clave: string
 
-    @CreateDateColumn({ type: 'timestamp without time zone', default: () => 'CURRENT_TIMESTAMP'})
+    @CreateDateColumn({ type: 'timestamptz', default: () => 'CURRENT_TIMESTAMP'})
     createdAt: Date
 
     @BeforeInsert()
