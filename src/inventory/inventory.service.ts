@@ -84,31 +84,33 @@ export class InventoryService {
     }
 
     async createInvEntry(invDTO : InventoryDTO) : Promise<Inventory>{
+        invDTO.cant = Math.abs(invDTO.cant)
         const data:InventoryDTO = new InventoryDTO(invDTO);
-        const inv = await this.getInvSingle((await this.invRepo.save(data.toInv())).id);
+        const inv = await this.getInvSingle((await this.invRepo.save(data.toInvEntry())).id);
         console.log(inv);
         return inv;
     }
 
     async createInvEgress(invDTO : InventoryDTO) : Promise<Inventory>{
+        invDTO.cant = (-1)*Math.abs(invDTO.cant)
         const data:InventoryDTO = new InventoryDTO(invDTO);
-        const inv = await this.getInvSingle((await this.invRepo.save(data.toInv())).id);
+        const inv = await this.getInvSingle((await this.invRepo.save(data.toInvEgress())).id);
         console.log(inv);
         return inv;
     }
 
     async updateInv(invDTO : InventoryDTO, invID : Number) :  Promise<Inventory>{
         const data:InventoryDTO = new InventoryDTO(invDTO);
-        this.invRepo.createQueryBuilder()
+        await this.invRepo.createQueryBuilder()
         .update(Inventory)
         .set({ 
             cant: data.cant, 
             fecha_reg: data.fecha_reg,
-            fecha_ven: data.fecha_ven, 
+            fecha_ven: data.fecha_ven,
+            valor_usd: data.valor_usd,
             contratador: data.contratador,
             fk_don: data.fk_don,
-            fk_prod: data.fk_prod,
-            valor_usd: data.valor_usd
+            fk_prod: data.fk_prod
             })
         .where("id = :invID", { invID })
         .execute();

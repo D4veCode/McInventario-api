@@ -74,16 +74,16 @@ export class InventoryController {
         if (inv != null)
             return res.status(HttpStatus.OK).json({message: "Registro exitoso", data: inv})
         else 
-            return res.status(HttpStatus.NOT_FOUND).json({message: "Registro no existente"})   
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Fallo de registro"})   
     }
 
-    @Post('/create/salida')
+    @Post('/create/salida') 
     async createInvEgress(@Res() res, @Body() inventoryDTO : InventoryDTO) {
         const inv = await this.invService.createInvEgress(inventoryDTO)
         if (inv != null)
             return res.status(HttpStatus.OK).json({message: "Registro exitoso", data: inv})
         else 
-            return res.status(HttpStatus.NOT_FOUND).json({message: "Registro no existente"})       
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Fallo de registro"})       
     }
 
     ///////PUTS///////
