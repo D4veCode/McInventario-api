@@ -40,7 +40,7 @@ export class InventoryService {
         return listInv;
     }
 
-    async getInvEntries() {
+    async getInvEntries(): Promise<Inventory[]> {
         const listInv = await this.invRepo.createQueryBuilder("inv")
         .leftJoin("inv.fk_user", "user").leftJoin("inv.fk_prod", "prod").leftJoin("inv.fk_don", "don")
         .select("inv.id", "id").addSelect("inv.cant", "cantidad").addSelect("prod.gr_paq", "gramos").addSelect("prod.gr_paq * inv.cant", "total")
