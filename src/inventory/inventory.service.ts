@@ -18,7 +18,8 @@ export class InventoryService {
 
     constructor(
         @InjectRepository(Inventory) private readonly invRepo : Repository<Inventory>,
-        private prodService : ProductService
+        private prodService : ProductService,
+        private donService : DonorService
         ){}
 
     async getInv(): Promise<Inventory[]> {
@@ -28,7 +29,8 @@ export class InventoryService {
         .select("inv.id", "id").addSelect("inv.cant", "cantidad").addSelect("prod.gr_paq", "gramos").addSelect("prod.gr_paq * inv.cant", "total")
         .addSelect("prod.nombre", "producto").addSelect("inv.fecha_reg", "registro").addSelect("inv.fecha_ven", "vencimiento")
         .addSelect("inv.valor_usd", "valor").addSelect("inv.contratador", "contratador")
-        .addSelect("don.nombre", "donante").addSelect("user.correo", "correo").orderBy("inv.fecha_reg", "DESC").addOrderBy("inv.id", "DESC")
+        .addSelect("don.nombre", "donante").addSelect("user.correo", "correo")
+        .orderBy("inv.fecha_reg", "DESC").addOrderBy("inv.id", "DESC")
         .getRawMany();
         return listInv;
     }
@@ -91,7 +93,9 @@ export class InventoryService {
         if (data.fk_prod.id == null){
             data.fk_prod = await this.prodService.createProdInv(data.fk_prod)
         }
-        if (data.fk_don.id == null){}
+        if (data.fk_don.id == null){
+            data.fk_don = await this.donService.createDonInv(data.fk_don)           
+        }
         const inv = await this.getInvSingle((await this.invRepo.save(data.toInvEntry())).id);
         return inv;
     }
