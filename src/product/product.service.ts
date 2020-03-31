@@ -10,7 +10,7 @@ export class ProductService {
 
     constructor(@InjectRepository(Product) private readonly prodRepo : Repository<Product>){}
 
-    public async getProd(id : number): Promise<Product> {
+    public async getProd(id : Number): Promise<Product> {
         const prod = await this.prodRepo.findOne({where : {id}});
         return prod;
     }
@@ -20,9 +20,41 @@ export class ProductService {
         return prod;
     }
 
-    public async createProd( newProd : Product ): Promise<Product> {
+    public async createProdInv( newProd : Product ): Promise<Product> {
         //const prod = await this.getProd((await this.prodRepo.save(newProd)).id);
         const prod = await this.prodRepo.save(newProd);
+        return prod;
+    }
+
+    public async createProd( prodDTO : ProductDTO ): Promise<Product> {
+        const data : ProductDTO = new ProductDTO(prodDTO)
+        const prod = await this.prodRepo.save(data.toProduct());
+        return prod;
+    }
+
+    async updateProd(prodDTO : ProductDTO, prodID : Number) :  Promise<Product>{
+        const data:ProductDTO = new ProductDTO(prodDTO);
+        await this.prodRepo.createQueryBuilder()
+        .update(Product)
+        .set({ 
+            nombre : data.nombre,
+            marca : data.marca,
+            gr_paq : data.gr_paq,
+            tipo : data.tipo
+            })
+        .where("id = :prodID", { prodID })
+        .execute();
+        const prod = await this.getProd(prodID);
+        return prod;
+    }
+
+    async deleteProd(prodID : Number) : Promise<Product>{
+        const prod = await this.getProd(prodID);
+        this.prodRepo.createQueryBuilder()
+        .delete()
+        .from(Product)
+        .where("id = :prodID" , { prodID })
+        .execute();
         return prod;
     }
 }

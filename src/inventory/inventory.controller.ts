@@ -16,7 +16,7 @@ export class InventoryController {
         if (inv != null)
             return res.status(HttpStatus.OK).json({data: inv})
         else 
-            return res.status(HttpStatus.NO_CONTENT).json({message: "Data no encontrada"})
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
     @Get('/entradas')
@@ -25,7 +25,7 @@ export class InventoryController {
         if (inv != null)
             return res.status(HttpStatus.OK).json({data: inv})
         else 
-            return res.status(HttpStatus.NO_CONTENT).json({message: "Data no encontrada"})
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
     @Get('/salidas')
@@ -34,7 +34,7 @@ export class InventoryController {
         if (inv != null)
             return res.status(HttpStatus.OK).json({data: inv})
         else 
-            return res.status(HttpStatus.NO_CONTENT).json({message: "Data no encontrada"})
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
     @Get('/actual')
@@ -43,7 +43,7 @@ export class InventoryController {
         if (inv != null)
             return res.status(HttpStatus.OK).json({data: inv})
         else 
-            return res.status(HttpStatus.NO_CONTENT).json({message: "Data no encontrada"})
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
     @Get('/row/:id')

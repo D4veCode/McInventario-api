@@ -15,7 +15,7 @@ export class ProductDTO {
         this.marca = json.marca;
         this.gr_paq = json.gr_paq;
         this.tipo = json.tipo;
-        this.createdAt = json.createdAt;this
+        this.createdAt = json.createdAt;
     }
     public toProduct() {
         const prod: Product = new Product();

@@ -89,7 +89,7 @@ export class InventoryService {
     async createInvEntry(invDTO : InventoryDTO) : Promise<Inventory>{
         const data:InventoryDTO = new InventoryDTO(invDTO);
         if (data.fk_prod.id == null){
-            data.fk_prod = await this.prodService.createProd(data.fk_prod)
+            data.fk_prod = await this.prodService.createProdInv(data.fk_prod)
         }
         if (data.fk_don.id == null){}
         const inv = await this.getInvSingle((await this.invRepo.save(data.toInvEntry())).id);
