@@ -16,7 +16,10 @@ import {AuthService} from "../auth/auth.service";
 @Injectable()
 export class InventoryService {
 
-    constructor(@InjectRepository(Inventory) private readonly invRepo : Repository<Inventory>){}
+    constructor(
+        @InjectRepository(Inventory) private readonly invRepo : Repository<Inventory>,
+        private prodService : ProductService
+        ){}
 
     async getInv(): Promise<Inventory[]> {
         //const listInv = await this.invRepo.find({relations: ['fk_user','fk_prod','fk_don']});
@@ -86,8 +89,11 @@ export class InventoryService {
     async createInvEntry(invDTO : InventoryDTO) : Promise<Inventory>{
         invDTO.cant = Math.abs(invDTO.cant)
         const data:InventoryDTO = new InventoryDTO(invDTO);
+        if (data.fk_prod.id == null){
+            data.fk_prod = await this.prodService.createProd(data.fk_prod)
+        }
+        if (data.fk_don.id == null){}
         const inv = await this.getInvSingle((await this.invRepo.save(data.toInvEntry())).id);
-        console.log(inv);
         return inv;
     }
 
@@ -95,7 +101,6 @@ export class InventoryService {
         invDTO.cant = (-1)*Math.abs(invDTO.cant)
         const data:InventoryDTO = new InventoryDTO(invDTO);
         const inv = await this.getInvSingle((await this.invRepo.save(data.toInvEgress())).id);
-        console.log(inv);
         return inv;
     }
 
