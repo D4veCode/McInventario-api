@@ -31,7 +31,7 @@ export class InventoryDTO {
         public toInvEntry() {
                 const inv: Inventory = new Inventory();
                 inv.id = this.id;
-                inv.cant = this.cant;
+                inv.cant = Math.abs(this.cant);
                 inv.fecha_ven = this.fecha_ven
                 inv.valor_usd = this.valor_usd;
                 inv.contratador = this.contratador;
@@ -44,7 +44,7 @@ export class InventoryDTO {
         public toInvEgress() {
                 const inv: Inventory = new Inventory();
                 inv.id = this.id;
-                inv.cant = this.cant;
+                inv.cant = (-1)*Math.abs(this.cant);
                 inv.fk_prod = this.fk_prod;
                 inv.fk_user = this.fk_user;
                 return inv;

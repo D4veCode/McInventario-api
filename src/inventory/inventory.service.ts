@@ -87,7 +87,6 @@ export class InventoryService {
     }
 
     async createInvEntry(invDTO : InventoryDTO) : Promise<Inventory>{
-        invDTO.cant = Math.abs(invDTO.cant)
         const data:InventoryDTO = new InventoryDTO(invDTO);
         if (data.fk_prod.id == null){
             data.fk_prod = await this.prodService.createProd(data.fk_prod)
@@ -98,7 +97,6 @@ export class InventoryService {
     }
 
     async createInvEgress(invDTO : InventoryDTO) : Promise<Inventory>{
-        invDTO.cant = (-1)*Math.abs(invDTO.cant)
         const data:InventoryDTO = new InventoryDTO(invDTO);
         const inv = await this.getInvSingle((await this.invRepo.save(data.toInvEgress())).id);
         return inv;
