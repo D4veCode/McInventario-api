@@ -20,7 +20,7 @@ export class InventoryService {
         @InjectRepository(Inventory) private readonly invRepo : Repository<Inventory>,
         private prodService : ProductService,
         private donService : DonorService
-        ){}
+    ){}
 
     async getInv(): Promise<Inventory[]> {
         //const listInv = await this.invRepo.find({relations: ['fk_user','fk_prod','fk_don']});
@@ -124,4 +124,28 @@ export class InventoryService {
         const inv = await this.getInvSingle(invID);
         return inv;
     }
+
+    //STATS//
+
+    async getTopProductsDonG(): Promise<Inventory[]> {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_prod", "prod")
+        .select("SUM(prod.gr_paq * inv.cant)", "Total Gr/Ml").addSelect("prod.nombre", "Producto")
+        .where("inv.cant > 0")
+        .groupBy("prod.nombre").orderBy("SUM(prod.gr_paq * inv.cant)", "DESC").limit(10)
+        .getRawMany();
+        return listInv;
+    }   
+
+    async getTopProductsDonP(): Promise<Inventory[]> {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_prod", "prod")
+        .select("SUM(inv.cant)", "Paquetes").addSelect("prod.gr_paq", "Gramos por paquete").addSelect("prod.nombre", "Producto")
+        .where("inv.cant > 0")
+        .groupBy("prod.nombre").addGroupBy("prod.gr_paq").orderBy("SUM(inv.cant)", "DESC").orderBy("prod.gr_paq", "DESC").limit(10)
+        .getRawMany();
+        return listInv;
+    }   
+
+
 }

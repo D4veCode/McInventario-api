@@ -99,14 +99,22 @@ export class InventoryController {
 
     ///////GETS-STATS///////
 
-    @Get('/stats/entradas/productos/gramos')
-    getTopProductsDonG(): string{
-        return 'Retornando top 5 productos mas donados por gramos';
+    @Get('/stats/entradas/productos/gramos') //top 10 productos mas donados por gr/ml
+    async getTopProductsDonG(@Res() res) {
+        const inv = await this.invService.getTopProductsDonG();
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
-    @Get('/stats/entradas/productos/paquetes')
-    getTopProductsDonP(): string{
-        return 'Retornando top 5 productos mas donados por paquete';
+    @Get('/stats/entradas/productos/paquetes') //top 10 productos mas donados por paquete
+    async getTopProductsDonP(@Res() res) {
+        const inv = await this.invService.getTopProductsDonP();
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
     @Get('/stats/donantes/gramos')
