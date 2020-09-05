@@ -142,7 +142,8 @@ export class InventoryService {
         .leftJoin("inv.fk_prod", "prod")
         .select("SUM(inv.cant)", "Paquetes").addSelect("prod.gr_paq", "Gramos por paquete").addSelect("prod.nombre", "Producto")
         .where("inv.cant > 0")
-        .groupBy("prod.nombre").addGroupBy("prod.gr_paq").orderBy("SUM(inv.cant)", "DESC").orderBy("prod.gr_paq", "DESC").limit(10)
+        .groupBy("prod.nombre").addGroupBy("prod.gr_paq").limit(10)
+        .orderBy("SUM(inv.cant)", "DESC").addOrderBy("prod.gr_paq", "DESC")
         .getRawMany();
         return listInv;
     }   
