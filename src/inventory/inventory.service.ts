@@ -131,7 +131,7 @@ export class InventoryService {
         const listInv = await this.invRepo.createQueryBuilder("inv")
         .leftJoin("inv.fk_prod", "prod")
         .select("SUM(prod.gr_paq * inv.cant)", "Total Gr/Ml").addSelect("prod.nombre", "Producto")
-        .where("inv.cant > 0")
+        .where("inv.cant > 0").andWhere("inv.fecha_reg between TO_DATE(:dateI , 'DD/MM/YYYY') and TO_DATE(:dateF , 'DD/MM/YYYY')", { dateI: "01/01/2020", dateF: "30/10/2020"})
         .groupBy("prod.nombre").orderBy("SUM(prod.gr_paq * inv.cant)", "DESC").limit(10)
         .getRawMany();
         return listInv;
@@ -141,12 +141,118 @@ export class InventoryService {
         const listInv = await this.invRepo.createQueryBuilder("inv")
         .leftJoin("inv.fk_prod", "prod")
         .select("SUM(inv.cant)", "Paquetes").addSelect("prod.gr_paq", "Gramos por paquete").addSelect("prod.nombre", "Producto")
-        .where("inv.cant > 0")
+        .where("inv.cant > 0").andWhere("inv.fecha_reg between TO_DATE(:dateI , 'DD/MM/YYYY') and TO_DATE(:dateF , 'DD/MM/YYYY')", { dateI: "01/01/2020", dateF: "30/10/2020"})
         .groupBy("prod.nombre").addGroupBy("prod.gr_paq").limit(10)
         .orderBy("SUM(inv.cant)", "DESC").addOrderBy("prod.gr_paq", "DESC")
         .getRawMany();
         return listInv;
-    }   
+    }
 
+    async getTopDonorsG(): Promise<Inventory[]> {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_prod", "prod").leftJoin("inv.fk_don", "don")
+        .select("SUM(inv.cant * prod.gr_paq)", "Total Gr/Ml").addSelect("don.nombre", "Donante")
+        .where("inv.cant > 0").andWhere("inv.fecha_reg between TO_DATE(:dateI , 'DD/MM/YYYY') and TO_DATE(:dateF , 'DD/MM/YYYY')", { dateI: "01/01/2020", dateF: "30/10/2020"})
+        .groupBy("don.nombre").limit(10)
+        .orderBy("SUM(inv.cant * prod.gr_paq)", "DESC")
+        .getRawMany();
+        return listInv;
+    }  
 
+    async getTopDonorsP(): Promise<Inventory[]> {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_don", "don")
+        .select("SUM(inv.cant)", "Total Paquetes").addSelect("don.nombre", "Donante")
+        .where("inv.cant > 0").andWhere("inv.fecha_reg between TO_DATE(:dateI , 'DD/MM/YYYY') and TO_DATE(:dateF , 'DD/MM/YYYY')", { dateI: "01/01/2020", dateF: "30/10/2020"})
+        .groupBy("don.nombre").limit(10)
+        .orderBy("SUM(inv.cant)", "DESC")
+        .getRawMany();
+        return listInv;
+    }  
+
+    async getTopDonorsD(): Promise<Inventory[]> {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_don", "don")
+        .select("Count(don.nombre)", "Cantidad de donaciones").addSelect("don.nombre", "Donante")
+        .where("inv.cant > 0").andWhere("inv.fecha_reg between TO_DATE(:dateI , 'DD/MM/YYYY') and TO_DATE(:dateF , 'DD/MM/YYYY')", { dateI: "01/01/2020", dateF: "30/10/2020"})
+        .groupBy("don.nombre").limit(10)
+        .orderBy("Count(don.nombre)", "DESC")
+        .getRawMany();
+        return listInv;
+    } 
+    
+    async getTopDonorsV(): Promise<Inventory[]> {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_don", "don")
+        .select("ROUND(SUM(inv.cant*inv.valor_usd)::numeric,2)", "Valor de donaciones").addSelect("don.nombre", "Donante")
+        .where("inv.cant > 0").andWhere("inv.fecha_reg between TO_DATE(:dateI , 'DD/MM/YYYY') and TO_DATE(:dateF , 'DD/MM/YYYY')", { dateI: "01/01/2020", dateF: "30/10/2020"})
+        .groupBy("don.nombre").limit(10)
+        .orderBy("ROUND(SUM(inv.cant*inv.valor_usd)::numeric,2)", "DESC")
+        .getRawMany();
+        return listInv;
+    } 
+
+    async getInvValor(): Promise<Inventory[]> {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .select("ROUND(SUM(inv.cant*inv.valor_usd)::numeric,2)", "Valor de donaciones")
+        .where("inv.cant > 0").andWhere("inv.fecha_reg between TO_DATE(:dateI , 'DD/MM/YYYY') and TO_DATE(:dateF , 'DD/MM/YYYY')", { dateI: "01/01/2020", dateF: "30/10/2020"})
+        .orderBy("ROUND(SUM(inv.cant*inv.valor_usd)::numeric,2)", "DESC")
+        .getRawMany();
+        return listInv;
+    } 
+
+    async getInvValorAlimento(): Promise<Inventory[]> {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_prod", "prod")
+        .select("ROUND(SUM(inv.cant*inv.valor_usd)::numeric,2)", "Valor de donaciones").addSelect("prod.tipo", "Tipo de producto")
+        .where("inv.cant > 0").andWhere("inv.fecha_reg between TO_DATE(:dateI , 'DD/MM/YYYY') and TO_DATE(:dateF , 'DD/MM/YYYY')", { dateI: "01/01/2020", dateF: "30/10/2020"})
+        .groupBy("prod.tipo")
+        .orderBy("ROUND(SUM(inv.cant*inv.valor_usd)::numeric,2)", "DESC")
+        .getRawMany();
+        return listInv;
+    } 
+
+    async getTopProductsUsedG(): Promise<Inventory[]> {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_prod", "prod")
+        .select("(-1)*(SUM(inv.cant * prod.gr_paq))", "Total Gr/Ml").addSelect("prod.nombre", "Producto")
+        .where("inv.cant < 0").andWhere("inv.fecha_reg between TO_DATE(:dateI , 'DD/MM/YYYY') and TO_DATE(:dateF , 'DD/MM/YYYY')", { dateI: "01/01/2020", dateF: "30/10/2020"})
+        .groupBy("prod.nombre").limit(10)
+        .orderBy("(-1)*(SUM(inv.cant * prod.gr_paq))", "DESC")
+        .getRawMany();
+        return listInv;
+    }
+
+    async getTopProductsUsedP(): Promise<Inventory[]> {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_prod", "prod")
+        .select("(-1)*SUM(inv.cant)", "Paquetes").addSelect("prod.gr_paq", "Gramos por paquete").addSelect("prod.nombre", "Producto")
+        .where("inv.cant < 0").andWhere("inv.fecha_reg between TO_DATE(:dateI , 'DD/MM/YYYY') and TO_DATE(:dateF , 'DD/MM/YYYY')", { dateI: "01/01/2020", dateF: "30/10/2020"})
+        .groupBy("inv.fk_prod").addGroupBy("prod.nombre").addGroupBy("prod.gr_paq").limit(10)
+        .orderBy("(-1)*SUM(inv.cant)", "DESC")
+        .getRawMany();
+        return listInv;
+    }
+
+    async getTopContratist(): Promise<Inventory[]> {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_prod", "prod")
+        .select("count(inv.cant)", "Cantidad de donaciones").addSelect("inv.contratador", "Contratador")
+        .where("inv.cant > 0").andWhere("inv.fecha_reg between TO_DATE(:dateI , 'DD/MM/YYYY') and TO_DATE(:dateF , 'DD/MM/YYYY')", { dateI: "01/01/2020", dateF: "30/10/2020"})
+        .groupBy("inv.contratador")
+        .orderBy("count(inv.cant)", "DESC")
+        .getRawMany();
+        return listInv;
+    }
+
+    async getTopContratistV(): Promise<Inventory[]> {
+        const listInv = await this.invRepo.createQueryBuilder("inv")
+        .leftJoin("inv.fk_prod", "prod")
+        .select("ROUND(SUM(inv.cant*inv.valor_usd)::numeric,2)", "Valor en donaciones").addSelect("inv.contratador", "Contratador")
+        .where("inv.cant > 0").andWhere("inv.fecha_reg between TO_DATE(:dateI , 'DD/MM/YYYY') and TO_DATE(:dateF , 'DD/MM/YYYY')", { dateI: "01/01/2020", dateF: "30/10/2020"})
+        .groupBy("inv.contratador")
+        .orderBy("SUM(inv.valor_usd*inv.cant)", "DESC")
+        .getRawMany();
+        return listInv;
+    }
 }

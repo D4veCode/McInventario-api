@@ -63,7 +63,7 @@ order by 1 desc
 limit 5;
 
 --top 5 donantes por valor en dolares por donaciones
-select SUM(i.cant*i.valor_usd) as "Cantidad de donaciones", d.nombre as "Donante"
+select SUM(i.cant*i.valor_usd) as "Valor de donaciones", d.nombre as "Donante"
 from inventarios i, donantes d
 where i.fk_don = d.id and i.cant > 0 and
 i.fecha_reg between TO_DATE('01/01/2020' , 'DD/MM/YYYY') and TO_DATE('30/10/2020' , 'DD/MM/YYYY')
@@ -80,7 +80,7 @@ order by 1 desc
 limit 1;
 
 --Valor en dolares en donaciones por tipo de alimento
-select SUM(i.valor_usd*i.cant) as "Valor en dolares", p.tipo as "Tipo de producto"
+select ROUND(SUM(i.cant*i.valor_usd)::numeric,2)as "Valor en dolares", p.tipo as "Tipo de producto"
 from inventarios i, productos p
 where i.fk_prod = p.id and i.cant > 0 and
 i.fecha_reg between TO_DATE('01/01/2020' , 'DD/MM/YYYY') and TO_DATE('30/10/2020' , 'DD/MM/YYYY')
@@ -115,7 +115,7 @@ order by 1 desc
 limit 5;
 
 --top 5 contratadores por valor en dolares por donaciones
-select SUM(i.valor_usd*i.cant) as "Cantidad de donaciones", i.contratador
+select ROUND(SUM(i.cant*i.valor_usd)::numeric,2) as "Valor de donaciones", i.contratador
 from inventarios i, productos p
 where i.fk_prod = p.id and i.cant > 0 and
 i.fecha_reg between TO_DATE('01/01/2020' , 'DD/MM/YYYY') and TO_DATE('30/10/2020' , 'DD/MM/YYYY')

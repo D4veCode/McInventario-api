@@ -117,54 +117,94 @@ export class InventoryController {
             return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
-    @Get('/stats/donantes/gramos')
-    getTopDonorsG(): string{
-        return 'Retornando top 5 donantes por gramos en productos';
+    @Get('/stats/donantes/gramos') //top 10 donantes por gramos en productos
+    async getTopDonorsG(@Res() res) {
+        const inv = await this.invService.getTopDonorsG();
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
-    @Get('/stats/donantes/paquetes')
-    getTopDonorsP(): string{
-        return 'Retornando top 5 donantes por paquetes en productos';
+    @Get('/stats/donantes/paquetes') //top 10 donantes por paquetes en productos
+    async getTopDonorsP(@Res() res) {
+        const inv = await this.invService.getTopDonorsP();
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
-    @Get('/stats/donantes/donaciones')
-    getTopDonorsD(): string{
-        return 'Retornando top 5 donantes por numero de donaciones';
+    @Get('/stats/donantes/donaciones') //top 10 donantes por numero de donaciones
+    async getTopDonorsD(@Res() res) {
+        const inv = await this.invService.getTopDonorsD();
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
-    @Get('/stats/donantes/valor')
-    getTopDonorsV(): string{
-        return 'Retornando top 5 donantes por valor de donaciones';
+    @Get('/stats/donantes/valor') //top 10 donantes por valor de donaciones
+    async getTopDonorsV(@Res() res) {
+        const inv = await this.invService.getTopDonorsV();
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
-    @Get('/stats/valor')
-    getInvValor(): string{
-        return 'Retornando valor en dolares del inventario';
+    @Get('/stats/valor') // valor en dolares del inventario
+    async getInvValor(@Res() res) {
+        const inv = await this.invService.getInvValor();
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
-    @Get('/stats/valor/alimento')
-    getInvValorAlimento(): string{
-        return 'Retornando valor en dolares del inventario por tipo de alimento';
+    @Get('/stats/valor/alimento') //Valor en dolares en donaciones por tipo de alimento
+    async getInvValorAlimento(@Res() res) {
+        const inv = await this.invService.getInvValorAlimento();
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
-    @Get('/stats/salidas/productos/gramos')
-    getTopProductsUsedG(): string{
-        return 'Retornando top productos usados del inventario por gramos';
+    @Get('/stats/salidas/productos/gramos') //Top 10 productos mas usados por gramo
+    async getTopProductsUsedG(@Res() res) {
+        const inv = await this.invService.getTopProductsUsedG();
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
-    @Get('/stats/salidas/productos/paquetes')
-    getTopProductsUsedP(): string{
-        return 'Retornando top productos usados del inventario por paquetes';
+    @Get('/stats/salidas/productos/paquetes') //top productos usados del inventario por paquetes
+    async getTopProductsUsedP(@Res() res) {
+        const inv = await this.invService.getTopProductsUsedP();
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
-    @Get('/stats/contratador')
-    getTopContratist(): string{
-        return 'Retornando top contratadores por numero';
+    @Get('/stats/contratador') //top contratadores por numero de donaciones
+    async getTopContratist(@Res() res) {
+        const inv = await this.invService.getTopContratist();
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
-    @Get('/stats/contratador/valor')
-    getTopContratistV(): string{
-        return 'Retornando top contratadores por valor';
+    @Get('/stats/contratador/valor') //top contratadores por valor en dolares por donaciones
+    async getTopContratistV(@Res() res) {
+        const inv = await this.invService.getTopContratistV();
+        if (inv != null)
+            return res.status(HttpStatus.OK).json({data: inv})
+        else
+            return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
 
