@@ -207,7 +207,4 @@ export class InventoryController {
             return res.status(HttpStatus.NOT_FOUND).json({message: "Data no encontrada"})
     }
 
-
-
-
 }
